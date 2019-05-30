@@ -1,0 +1,15 @@
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\313ass2.exe
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\313ass2.pdb
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.Common.dll
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.Common.Native.dll
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.DAQmx.dll
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.NiLmClientDLL.dll
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.MStudioCLM.dll
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.Common.xml
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\bin\x86\Debug\NationalInstruments.DAQmx.xml
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\_313ass2.Form1.resources
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\_313ass2.Properties.Resources.resources
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\313ass2.csproj.GenerateResource.Cache
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\313ass2.csproj.CoreCompileInputs.cache
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\313ass2.exe
+\\uoa.auckland.ac.nz\engdfs\Home\ekul640\Documents\313\Assignment 2\313ass2-master\313ass2\obj\x86\Debug\313ass2.pdb

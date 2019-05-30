@@ -28,10 +28,10 @@ namespace ReadWrite
 
             //Configure timing specs
             analogIn.Timing.ConfigureSampleClock("",//external clock source line, "" for internal clock
-                100.0,                               // rate of internal/external clock
+                10.0,                               // rate of internal/external clock (10hz)
                 SampleClockActiveEdge.Rising,       // acquisition on rising or falling edge of ticks
                 SampleQuantityMode.FiniteSamples,   // continous or finite samples
-                samplesPerChannel);                 // number of fi9nite samples to acquire or used for buffer size if continous
+                samplesPerChannel);                 // number of finite samples to acquire or used for buffer size if continous
 
             // Initialise the single analog input channel reader
             reader = new AnalogSingleChannelReader(analogIn.Stream);
