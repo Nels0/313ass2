@@ -50,14 +50,17 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NationalInstruments.Common">
-      <HintPath>..\..\..\..\Google Drive\_Uni\313\NI Assemblies\NationalInstruments.Common.dll</HintPath>
+    <Reference Include="NationalInstruments.Common, Version=13.5.35.173, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NI Assemblies\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Common.Native">
-      <HintPath>..\..\..\..\Google Drive\_Uni\313\NI Assemblies\NationalInstruments.Common.Native.dll</HintPath>
+    <Reference Include="NationalInstruments.Common.Native, Version=12.0.20.258, Culture=neutral, PublicKeyToken=4544464cdeaab541, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NI Assemblies\NationalInstruments.Common.Native.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.DAQmx">
-      <HintPath>..\..\Assemblies\NationalInstruments.DAQmx.dll</HintPath>
+    <Reference Include="NationalInstruments.DAQmx, Version=8.9.35.210, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\NI Assemblies\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

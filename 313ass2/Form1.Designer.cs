@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLogfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openLogfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.temperature1 = new System.Windows.Forms.TextBox();
             this.temperature2 = new System.Windows.Forms.TextBox();
             this.temperature3 = new System.Windows.Forms.TextBox();
@@ -67,14 +67,6 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -83,6 +75,12 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
             this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
+            // 
+            // openLogfilesToolStripMenuItem
+            // 
+            this.openLogfilesToolStripMenuItem.Name = "openLogfilesToolStripMenuItem";
+            this.openLogfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openLogfilesToolStripMenuItem.Text = "&Open Logfiles";
             // 
             // editToolStripMenuItem
             // 
@@ -96,20 +94,22 @@
             // loadFilterConfigToolStripMenuItem
             // 
             this.loadFilterConfigToolStripMenuItem.Name = "loadFilterConfigToolStripMenuItem";
-            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.loadFilterConfigToolStripMenuItem.Text = "&Load Filter Config";
             // 
             // saveFilterConfigToolStripMenuItem
             // 
             this.saveFilterConfigToolStripMenuItem.Name = "saveFilterConfigToolStripMenuItem";
-            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveFilterConfigToolStripMenuItem.Text = "&Save Filter Config";
             // 
-            // openLogfilesToolStripMenuItem
+            // statusStrip1
             // 
-            this.openLogfilesToolStripMenuItem.Name = "openLogfilesToolStripMenuItem";
-            this.openLogfilesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.openLogfilesToolStripMenuItem.Text = "&Open Logfiles";
+            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
             // 
             // temperature1
             // 
@@ -192,6 +192,7 @@
             this.controllerRunButton.TabIndex = 11;
             this.controllerRunButton.Text = "Start";
             this.controllerRunButton.UseVisualStyleBackColor = true;
+            this.controllerRunButton.Click += new System.EventHandler(this.ControllerRunButton_Click);
             // 
             // label1
             // 

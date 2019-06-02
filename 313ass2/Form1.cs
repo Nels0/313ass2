@@ -14,7 +14,7 @@ namespace _313ass2
 
     public partial class Form1 : Form
     {
-        
+        Chamber chamber1;
 
 
         public Form1()
@@ -23,7 +23,7 @@ namespace _313ass2
 
             
 
-            Chamber chamber1 = new Chamber();
+            chamber1 = new Chamber();
 
 
 
@@ -58,6 +58,15 @@ namespace _313ass2
         private void label5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void ControllerRunButton_Click(object sender, EventArgs e)
+        {
+            chamber1.controllerEnabled = !chamber1.controllerEnabled;
+            if (chamber1.controllerEnabled)
+            {
+
+            }
         }
     }
 
@@ -112,7 +121,18 @@ namespace _313ass2
         double readTemp;
         double setPoint;
         double ambientTemp;
-        bool controllerEnabled;
+        private bool _controllerEnabled = false;
+        public bool controllerEnabled
+        {
+            get
+            { 
+                return _controllerEnabled;
+            }
+            set
+            {
+                _controllerEnabled = value;
+            }
+        }
         int kp;
 
 
@@ -120,6 +140,8 @@ namespace _313ass2
         public Chamber()
         {
             kp = 1;
+            
+
         }
 
         public void Controller()
@@ -132,7 +154,7 @@ namespace _313ass2
 
             //Convert to output and
             //Only apply output if controller is "started"
-            if (controllerEnabled)
+            if (_controllerEnabled)
             {
                 if (y > 0)
                 {
