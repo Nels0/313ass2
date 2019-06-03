@@ -36,6 +36,7 @@
             this.saveFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.connectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.temperature1 = new System.Windows.Forms.TextBox();
             this.temperature2 = new System.Windows.Forms.TextBox();
             this.temperature3 = new System.Windows.Forms.TextBox();
@@ -62,7 +63,9 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.filterUpdateButton = new System.Windows.Forms.Button();
             this.filterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.exitButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).BeginInit();
@@ -119,11 +122,19 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.connectionStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // connectionStatus
+            // 
+            this.connectionStatus.Name = "connectionStatus";
+            this.connectionStatus.Size = new System.Drawing.Size(134, 17);
+            this.connectionStatus.Text = "ELVIS NOT CONNECTED";
             // 
             // temperature1
             // 
@@ -376,11 +387,24 @@
             // 
             this.filterBindingSource.DataSource = typeof(_313ass2.Filter);
             // 
+            // exitButton
+            // 
+            this.exitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.exitButton.Location = new System.Drawing.Point(763, 2);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(35, 22);
+            this.exitButton.TabIndex = 25;
+            this.exitButton.Text = "X";
+            this.exitButton.UseVisualStyleBackColor = false;
+            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.filterUpdateButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -407,11 +431,16 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.ShowIcon = false;
             this.Text = "Chamber Controller";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).EndInit();
@@ -455,6 +484,8 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Button filterUpdateButton;
         private System.Windows.Forms.BindingSource filterBindingSource;
+        private System.Windows.Forms.ToolStripStatusLabel connectionStatus;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 
