@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,8 +53,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.filterTypeCombo = new System.Windows.Forms.ComboBox();
+            this.filterLengthUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -117,6 +126,7 @@
             this.temperature1.Name = "temperature1";
             this.temperature1.Size = new System.Drawing.Size(100, 20);
             this.temperature1.TabIndex = 2;
+            this.temperature1.Text = "0";
             // 
             // temperature2
             // 
@@ -124,6 +134,7 @@
             this.temperature2.Name = "temperature2";
             this.temperature2.Size = new System.Drawing.Size(100, 20);
             this.temperature2.TabIndex = 3;
+            this.temperature2.Text = "0";
             // 
             // temperature3
             // 
@@ -131,10 +142,13 @@
             this.temperature3.Name = "temperature3";
             this.temperature3.Size = new System.Drawing.Size(100, 20);
             this.temperature3.TabIndex = 4;
+            this.temperature3.Text = "0";
             // 
             // temp1CheckBox
             // 
             this.temp1CheckBox.AutoSize = true;
+            this.temp1CheckBox.Checked = true;
+            this.temp1CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.temp1CheckBox.Location = new System.Drawing.Point(253, 200);
             this.temp1CheckBox.Name = "temp1CheckBox";
             this.temp1CheckBox.Size = new System.Drawing.Size(15, 14);
@@ -144,6 +158,8 @@
             // temp2CheckBox
             // 
             this.temp2CheckBox.AutoSize = true;
+            this.temp2CheckBox.Checked = true;
+            this.temp2CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.temp2CheckBox.Location = new System.Drawing.Point(368, 201);
             this.temp2CheckBox.Name = "temp2CheckBox";
             this.temp2CheckBox.Size = new System.Drawing.Size(15, 14);
@@ -153,6 +169,8 @@
             // temp3CheckBox
             // 
             this.temp3CheckBox.AutoSize = true;
+            this.temp3CheckBox.Checked = true;
+            this.temp3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.temp3CheckBox.Location = new System.Drawing.Point(481, 200);
             this.temp3CheckBox.Name = "temp3CheckBox";
             this.temp3CheckBox.Size = new System.Drawing.Size(15, 14);
@@ -195,7 +213,7 @@
             // 
             // controllerRunButton
             // 
-            this.controllerRunButton.Location = new System.Drawing.Point(502, 267);
+            this.controllerRunButton.Location = new System.Drawing.Point(671, 377);
             this.controllerRunButton.Name = "controllerRunButton";
             this.controllerRunButton.Size = new System.Drawing.Size(75, 23);
             this.controllerRunButton.TabIndex = 11;
@@ -206,7 +224,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(397, 272);
+            this.label1.Location = new System.Drawing.Point(566, 382);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 13);
             this.label1.TabIndex = 12;
@@ -268,11 +286,86 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "Sensor 3";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "dev0",
+            "dev1",
+            "dev2",
+            "dev3",
+            "dev4",
+            "dev5",
+            "dev6"});
+            this.comboBox1.Location = new System.Drawing.Point(351, 73);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 19;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // filterTypeCombo
+            // 
+            this.filterTypeCombo.FormattingEnabled = true;
+            this.filterTypeCombo.Items.AddRange(new object[] {
+            "Average",
+            "Linear",
+            "Exponential"});
+            this.filterTypeCombo.Location = new System.Drawing.Point(625, 73);
+            this.filterTypeCombo.Name = "filterTypeCombo";
+            this.filterTypeCombo.Size = new System.Drawing.Size(121, 21);
+            this.filterTypeCombo.TabIndex = 20;
+            // 
+            // filterLengthUpDown
+            // 
+            this.filterLengthUpDown.DecimalPlaces = 1;
+            this.filterLengthUpDown.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.filterLengthUpDown.Location = new System.Drawing.Point(691, 100);
+            this.filterLengthUpDown.Name = "filterLengthUpDown";
+            this.filterLengthUpDown.Size = new System.Drawing.Size(55, 20);
+            this.filterLengthUpDown.TabIndex = 21;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(556, 73);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 22;
+            this.label8.Text = "Filter Type:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(556, 107);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.TabIndex = 23;
+            this.label9.Text = "Filter Length:";
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 500;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.filterLengthUpDown);
+            this.Controls.Add(this.filterTypeCombo);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -294,11 +387,12 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Chamber Controller";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,6 +424,13 @@
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.Button heaterButton;
         public System.Windows.Forms.Button fanButton;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ComboBox filterTypeCombo;
+        private System.Windows.Forms.NumericUpDown filterLengthUpDown;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

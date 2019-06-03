@@ -17,6 +17,12 @@ namespace _313ass2
     {
         Chamber chamber1;
 
+        Sensor sensor1, sensor2, sensor3;
+
+        int filterLength;
+        Filter filter;
+
+        string device = "dev6";
  
         void c_ToolChanged(object sender, ToolChangedEventArgs e)
         {
@@ -52,24 +58,27 @@ namespace _313ass2
 
         public Form1()
         {
+
             InitializeComponent();
 
+            filterLength = 10;
+            sensor1 = new Sensor(0, device, 10000, 3380, 298.15, filterLength);
+            sensor2 = new Sensor(1, device, 5000, 3960, 298.15, filterLength);
+            sensor3 = new Sensor(2, device, 100000, 4380, 298.15, filterLength);
 
             chamber1 = new Chamber();
+
+            filter = new Filter(FilterType.Avg, filterLength);
+            
 
             chamber1.fan.ToolChanged += c_ToolChanged;
             chamber1.heater.ToolChanged += c_ToolChanged;
 
-            Thread controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions
+            Thread controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions?!
             controllerThread.Start();
 
 
-
-
-            //dOut.OpenChannel(device+"/port0", "DigitalChn0");
-            //aIn0.OpenChannel("dev6/ai0", "Ainput");
-            //aIn1.OpenChannel("dev6/ai1", "Ainput");
-            //aIn2.OpenChannel("dev6/ai2", "Ainput");
+            
 
         }
 
@@ -104,6 +113,8 @@ namespace _313ass2
             {
 
             }
+
+            
         }
 
         private void setTempBox_ValueChanged(object sender, EventArgs e)
@@ -131,6 +142,19 @@ namespace _313ass2
             messageBoxCS.AppendFormat("{0} = {1}", "Cancel", e.Cancel);
             messageBoxCS.AppendLine();
             MessageBox.Show(messageBoxCS.ToString(), "FormClosing Event");
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            temperature1.Text = sensor1.getSensorTemp().ToString();
+            temperature2.Text = sensor2.getSensorTemp().ToString();
+            temperature3.Text = sensor3.getSensorTemp().ToString();
+            ///Console.WriteLine(sensor1.getSensorTemp().ToString());
         }
     }
 
@@ -325,12 +349,12 @@ namespace _313ass2
         }
 
 
-        Filter()
+        public Filter()
         {
             generateFilter(FilterType.Avg, 10);
         }
 
-        Filter(FilterType genType, int genLength)
+        public Filter(FilterType genType, int genLength)
         {
             generateFilter(genType, genLength);
         }
@@ -375,5 +399,42 @@ namespace _313ass2
             _type = genType;
 
         }
+    }
+
+    class Sensor
+    {
+        double Ro, B, To, R, sensorReading;
+        AnalogI analogInput;
+        public string device;
+
+        public double[] buffer;
+
+        public Sensor(int ID, string device, double sRo, double sB, double sTo, int filterLength) {
+            buffer = new double[filterLength];
+            analogInput = new AnalogI();
+            Ro = sRo;
+            B = sB;
+            To = sTo;
+            analogInput.OpenChannel(device+"/ai"+ID, "Ainput");
+            //To = 298.15; // 25 degrees in Kelvin
+        }
+
+        public double getSensorTemp() 
+        {
+            readTemp();
+            double T;
+            R = (sensorReading * Ro) / (5.0 - sensorReading);
+            double frac = (R) / (Ro * Math.Exp(-1.0 * B / To));
+            T = B / Math.Log(frac);
+            return T - 273.15; // convert to degrees celsius
+
+        }
+
+        void readTemp() {
+            //Poll Analog channel
+            sensorReading = analogInput.ReadData();
+            
+        }
+
     }
 }

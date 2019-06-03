@@ -15,12 +15,12 @@ namespace ReadWrite
         AnalogSingleChannelReader reader;
         // Create new AnalogWaveform type to hold the read data
         NationalInstruments.AnalogWaveform<double> data;
-        int samplesPerChannel = 20;
+        int samplesPerChannel = 2;
 
         public void OpenChannel(string portLine, string portName)
         {
             // Create a new analog inputChannel called "Ainport0"
-            analogIn.AIChannels.CreateVoltageChannel(portLine, // The phyrical name of the channel
+            analogIn.AIChannels.CreateVoltageChannel(portLine, // The physical name of the channel
                 portName, // The given name to the channel
                 AITerminalConfiguration.Rse, //Input type (Differential, RSE, NRSE)
                 -10.0, 10.0, //Input Voltage Range
@@ -50,6 +50,11 @@ namespace ReadWrite
             return sum / samplesPerChannel;
             // Clear the task
             // analogIn.Dispose();
+            
+
+            //data = reader.ReadWaveform(1);
+            //return data.Samples[1].Value;
+
         }
 
         public void CloseChannel()
