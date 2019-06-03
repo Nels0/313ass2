@@ -79,7 +79,7 @@
             // openLogfilesToolStripMenuItem
             // 
             this.openLogfilesToolStripMenuItem.Name = "openLogfilesToolStripMenuItem";
-            this.openLogfilesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openLogfilesToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.openLogfilesToolStripMenuItem.Text = "&Open Logfiles";
             // 
             // editToolStripMenuItem
@@ -94,13 +94,13 @@
             // loadFilterConfigToolStripMenuItem
             // 
             this.loadFilterConfigToolStripMenuItem.Name = "loadFilterConfigToolStripMenuItem";
-            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.loadFilterConfigToolStripMenuItem.Text = "&Load Filter Config";
             // 
             // saveFilterConfigToolStripMenuItem
             // 
             this.saveFilterConfigToolStripMenuItem.Name = "saveFilterConfigToolStripMenuItem";
-            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.saveFilterConfigToolStripMenuItem.Text = "&Save Filter Config";
             // 
             // statusStrip1
@@ -161,10 +161,17 @@
             // 
             // setTempBox
             // 
+            this.setTempBox.DecimalPlaces = 1;
+            this.setTempBox.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
             this.setTempBox.Location = new System.Drawing.Point(231, 234);
             this.setTempBox.Name = "setTempBox";
             this.setTempBox.Size = new System.Drawing.Size(55, 20);
             this.setTempBox.TabIndex = 8;
+            this.setTempBox.ValueChanged += new System.EventHandler(this.setTempBox_ValueChanged);
             // 
             // heaterButton
             // 
@@ -174,6 +181,7 @@
             this.heaterButton.TabIndex = 9;
             this.heaterButton.Text = "Heater";
             this.heaterButton.UseVisualStyleBackColor = true;
+            this.heaterButton.Click += new System.EventHandler(this.heaterButton_Click);
             // 
             // fanButton
             // 
@@ -183,6 +191,7 @@
             this.fanButton.TabIndex = 10;
             this.fanButton.Text = "Fan";
             this.fanButton.UseVisualStyleBackColor = true;
+            this.fanButton.Click += new System.EventHandler(this.fanButton_Click);
             // 
             // controllerRunButton
             // 
@@ -311,8 +320,6 @@
         private System.Windows.Forms.CheckBox temp2CheckBox;
         private System.Windows.Forms.CheckBox temp3CheckBox;
         private System.Windows.Forms.NumericUpDown setTempBox;
-        private System.Windows.Forms.Button heaterButton;
-        private System.Windows.Forms.Button fanButton;
         private System.Windows.Forms.Button controllerRunButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -321,6 +328,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Button heaterButton;
+        public System.Windows.Forms.Button fanButton;
     }
 }
 

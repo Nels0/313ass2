@@ -15,8 +15,8 @@ namespace _313ass2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form1 form = new Form1();
-            Application.Run(form);
+            //Form1 mainForm = ;
+            Application.Run(new Form1());
 
 
         }
