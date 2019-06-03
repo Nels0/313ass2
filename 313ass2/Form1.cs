@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using ReadWrite;
 using System.Threading;
@@ -20,7 +21,13 @@ namespace _313ass2
         Sensor sensor1, sensor2, sensor3;
 
         int filterLength;
+        FilterType filterType;
         Filter filter;
+
+        int ringIndex;
+        double[] sens1Buffer;
+        double[] sens2Buffer;
+        double[] sens3Buffer;
 
         string device = "dev6";
  
@@ -62,29 +69,57 @@ namespace _313ass2
             InitializeComponent();
 
             filterLength = 10;
+            filterType = FilterType.Avg;
+            filter = new Filter(filterType, filterLength);
+
             sensor1 = new Sensor(0, device, 10000, 3380, 298.15, filterLength);
             sensor2 = new Sensor(1, device, 5000, 3960, 298.15, filterLength);
             sensor3 = new Sensor(2, device, 100000, 4380, 298.15, filterLength);
 
+            ringIndex = 0;
+            sens1Buffer = new double[filterLength];
+            sens2Buffer = new double[filterLength];
+            sens3Buffer = new double[filterLength];
+
             chamber1 = new Chamber();
-
-            filter = new Filter(FilterType.Avg, filterLength);
             
-
+            //Button update event handlers
             chamber1.fan.ToolChanged += c_ToolChanged;
             chamber1.heater.ToolChanged += c_ToolChanged;
 
+            //Start controller as own thread
             Thread controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions?!
             controllerThread.Start();
 
-
-            
-
+            //Delete old logfiles
+            for(int i = 1; i <= 3; i++) {
+                File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
+            }
         }
 
-        
+        private static double[] Convolve(double[] sensorReadings, double[] filterValues,  int ringIndex)
+        {
+            int typeLen = filterValues.Length;
+            int bufferLen = sensorReadings.Length;
+            double newValue = 0.0;
+            double[] filterReadings = new double[bufferLen];
 
-        
+            for (int j = 0; j < typeLen; j++)
+            {
+                for (int i = bufferLen - 1; i >= 0; i--)
+                {
+                    if ((j - i) < 0) continue;
+
+                    newValue += sensorReadings[(ringIndex + i)%bufferLen] * filterValues[j - i]; // convolution
+                }
+                filterReadings[j] = newValue;
+            }
+            return filterReadings;
+        }
+
+
+
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -108,13 +143,12 @@ namespace _313ass2
 
         private void ControllerRunButton_Click(object sender, EventArgs e)
         {
-            chamber1.controllerEnabled = !chamber1.controllerEnabled;
+            chamber1.controllerEnabled = true;
             if (chamber1.controllerEnabled)
             {
 
             }
-
-            
+                       
         }
 
         private void setTempBox_ValueChanged(object sender, EventArgs e)
@@ -144,6 +178,29 @@ namespace _313ass2
             MessageBox.Show(messageBoxCS.ToString(), "FormClosing Event");
         }
 
+        private void filterUpdateButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void filterTypeCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (filterTypeCombo.DisplayMember)
+            {
+                case ("Average"):
+                    
+                    break;
+                default:
+                    throw new System.ArgumentException("Invalid filter type");
+                    
+            }
+        }
+
+        private void openLogfilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(Application.StartupPath + "\\logfiles");
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -151,10 +208,48 @@ namespace _313ass2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            temperature1.Text = sensor1.getSensorTemp().ToString();
-            temperature2.Text = sensor2.getSensorTemp().ToString();
-            temperature3.Text = sensor3.getSensorTemp().ToString();
-            ///Console.WriteLine(sensor1.getSensorTemp().ToString());
+            //TODO: Thread this whole thing
+            double temp1 = sensor1.getSensorTemp();
+            double temp2 = sensor2.getSensorTemp();
+            double temp3 = sensor3.getSensorTemp();
+
+            temperature1.Text = temp1.ToString();
+            temperature2.Text = temp2.ToString();
+            temperature3.Text = temp3.ToString();
+            string date = DateTime.Now.ToString("HH:mm:ss.fff");
+
+            string logfolder = Application.StartupPath + "\\logfiles";
+            System.IO.Directory.CreateDirectory(logfolder);
+
+            
+
+            using (StreamWriter sw = new StreamWriter(logfolder + "/log1.txt", append: true))
+            {
+                sw.WriteLine(date + " " + temp1.ToString());
+                sw.Close();
+            }
+
+            using (StreamWriter sw = new StreamWriter(logfolder + "/log2.txt", append: true))
+            {
+                sw.WriteLine(date + " " + temp2.ToString());
+                sw.Close();
+            }
+
+            using (StreamWriter sw = new StreamWriter(logfolder + "/log3.txt", append: true))
+            {
+                sw.WriteLine(date + " " + temp3.ToString());
+                sw.Close();
+            }
+
+
+            sens1Buffer[ringIndex] = temp1;
+            sens2Buffer[ringIndex] = temp2;
+            sens3Buffer[ringIndex] = temp3;
+            ringIndex = (ringIndex + 1) % filterLength;
+
+
+            double[] temp1_filtered = Convolve(sens1Buffer, filter.FilterArray, ringIndex);
+            int i = 3;
         }
     }
 
@@ -328,12 +423,7 @@ namespace _313ass2
     {
         private FilterType _type;
         private int _length;
-        public double[] FilterArray
-        {
-            get { return this.FilterArray; }
-            set { }
-
-        }
+        public double[] FilterArray;
         
         public FilterType Type
         {
@@ -366,20 +456,22 @@ namespace _313ass2
             }
             
 
-            FilterArray = new double[_length];
-            double dLength = (double)_length;
+            FilterArray = new double[genLength];
+            double dLength = (double)genLength;
+            _length = genLength;
+            _type = genType;
 
             switch (genType)
             {
                 case FilterType.Avg:
-                    for (int i = 0; i < _length; i++)
+                    for (int i = 0; i < genLength; i++)
                     {
                         FilterArray[i] = 1 / dLength;
                     }
                     break;
 
                 case FilterType.Linear:
-                    for (int i = 0; i < _length; i++)
+                    for (int i = 0; i < genLength; i++)
                     {
                         FilterArray[i] = 2 / dLength - (2*i) / (dLength * dLength);
                     }
@@ -395,15 +487,14 @@ namespace _313ass2
 
             }
 
-            _length = genLength;
-            _type = genType;
+
 
         }
     }
 
     class Sensor
     {
-        double Ro, B, To, R, sensorReading;
+        double Ro, B, To, R, refV, sensorReading;
         AnalogI analogInput;
         public string device;
 
@@ -415,15 +506,15 @@ namespace _313ass2
             Ro = sRo;
             B = sB;
             To = sTo;
+            refV = 5;
             analogInput.OpenChannel(device+"/ai"+ID, "Ainput");
-            //To = 298.15; // 25 degrees in Kelvin
         }
 
         public double getSensorTemp() 
         {
             readTemp();
             double T;
-            R = (sensorReading * Ro) / (5.0 - sensorReading);
+            R = (sensorReading * Ro) / (refV - sensorReading);
             double frac = (R) / (Ro * Math.Exp(-1.0 * B / To));
             T = B / Math.Log(frac);
             return T - 273.15; // convert to degrees celsius

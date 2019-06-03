@@ -33,8 +33,8 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openLogfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.temperature1 = new System.Windows.Forms.TextBox();
             this.temperature2 = new System.Windows.Forms.TextBox();
@@ -60,9 +60,12 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.filterUpdateButton = new System.Windows.Forms.Button();
+            this.filterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -90,27 +93,28 @@
             this.openLogfilesToolStripMenuItem.Name = "openLogfilesToolStripMenuItem";
             this.openLogfilesToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.openLogfilesToolStripMenuItem.Text = "&Open Logfiles";
+            this.openLogfilesToolStripMenuItem.Click += new System.EventHandler(this.openLogfilesToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadFilterConfigToolStripMenuItem,
-            this.saveFilterConfigToolStripMenuItem});
+            this.saveFilterConfigToolStripMenuItem,
+            this.loadFilterConfigToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.editToolStripMenuItem.Text = "&Filter";
             // 
-            // loadFilterConfigToolStripMenuItem
-            // 
-            this.loadFilterConfigToolStripMenuItem.Name = "loadFilterConfigToolStripMenuItem";
-            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
-            this.loadFilterConfigToolStripMenuItem.Text = "&Load Filter Config";
-            // 
             // saveFilterConfigToolStripMenuItem
             // 
             this.saveFilterConfigToolStripMenuItem.Name = "saveFilterConfigToolStripMenuItem";
-            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.saveFilterConfigToolStripMenuItem.Text = "&Save Filter Config";
+            // 
+            // loadFilterConfigToolStripMenuItem
+            // 
+            this.loadFilterConfigToolStripMenuItem.Name = "loadFilterConfigToolStripMenuItem";
+            this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
+            this.loadFilterConfigToolStripMenuItem.Text = "&Load Custom Filter Config";
             // 
             // statusStrip1
             // 
@@ -297,7 +301,7 @@
             "dev4",
             "dev5",
             "dev6"});
-            this.comboBox1.Location = new System.Drawing.Point(351, 73);
+            this.comboBox1.Location = new System.Drawing.Point(625, 267);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 19;
@@ -306,19 +310,21 @@
             // timer1
             // 
             this.timer1.Enabled = true;
+            this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // filterTypeCombo
             // 
-            this.filterTypeCombo.FormattingEnabled = true;
             this.filterTypeCombo.Items.AddRange(new object[] {
             "Average",
-            "Linear",
+            "Linear (Ramp)",
             "Exponential"});
             this.filterTypeCombo.Location = new System.Drawing.Point(625, 73);
             this.filterTypeCombo.Name = "filterTypeCombo";
             this.filterTypeCombo.Size = new System.Drawing.Size(121, 21);
             this.filterTypeCombo.TabIndex = 20;
+            this.filterTypeCombo.Text = "Average";
+            this.filterTypeCombo.SelectedIndexChanged += new System.EventHandler(this.filterTypeCombo_SelectedIndexChanged);
             // 
             // filterLengthUpDown
             // 
@@ -345,7 +351,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(556, 107);
+            this.label9.Location = new System.Drawing.Point(556, 102);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 13);
             this.label9.TabIndex = 23;
@@ -356,11 +362,26 @@
             this.timer2.Enabled = true;
             this.timer2.Interval = 500;
             // 
+            // filterUpdateButton
+            // 
+            this.filterUpdateButton.Location = new System.Drawing.Point(671, 126);
+            this.filterUpdateButton.Name = "filterUpdateButton";
+            this.filterUpdateButton.Size = new System.Drawing.Size(75, 23);
+            this.filterUpdateButton.TabIndex = 24;
+            this.filterUpdateButton.Text = "Update Filter";
+            this.filterUpdateButton.UseVisualStyleBackColor = true;
+            this.filterUpdateButton.Click += new System.EventHandler(this.filterUpdateButton_Click);
+            // 
+            // filterBindingSource
+            // 
+            this.filterBindingSource.DataSource = typeof(_313ass2.Filter);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.filterUpdateButton);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.filterLengthUpDown);
@@ -393,6 +414,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -431,6 +453,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Button filterUpdateButton;
+        private System.Windows.Forms.BindingSource filterBindingSource;
     }
 }
 

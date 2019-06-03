@@ -39,7 +39,9 @@ namespace ReadWrite
 
         public double ReadData()
         {
+            
             data = reader.ReadWaveform(samplesPerChannel);
+
             double sum = 0;
             for (int i = 0; i < samplesPerChannel; i++)
             {
@@ -47,13 +49,11 @@ namespace ReadWrite
                 //Console.WriteLine("Sample{0}=>time={1}, value={2}", i + 1, data.Samples[i].TimeStamp, data.Samples[i].Value);
             }
 
-            return sum / samplesPerChannel;
-            // Clear the task
-            // analogIn.Dispose();
-            
 
-            //data = reader.ReadWaveform(1);
-            //return data.Samples[1].Value;
+
+            return sum / samplesPerChannel;
+            
+            //return reader.ReadSingleSample();
 
         }
 
