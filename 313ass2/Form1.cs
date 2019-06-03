@@ -201,6 +201,29 @@ namespace _313ass2
             System.Diagnostics.Process.Start(Application.StartupPath + "\\logfiles");
         }
 
+        private void saveFilterConfigToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Displays a SaveFileDialog so the user can save the Image  
+            // assigned to Button2.  
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Filter File|*.txt";
+            saveFileDialog1.Title = "Save a Filter File";
+            saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.  
+            if (saveFileDialog1.FileName != "")
+            {
+
+                string filterString = "";
+                for (int i = 0; i < filter.Length; i++)
+                {
+                    filterString = filterString + filter.FilterArray[i].ToString() + " ";
+                }
+
+                System.IO.File.WriteAllText(saveFileDialog1.FileName, filterString);
+            }
+        }
+
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -249,7 +272,6 @@ namespace _313ass2
 
 
             double[] temp1_filtered = Convolve(sens1Buffer, filter.FilterArray, ringIndex);
-            int i = 3;
         }
     }
 
@@ -487,6 +509,7 @@ namespace _313ass2
 
             }
 
+            Array.Reverse(FilterArray);
 
 
         }

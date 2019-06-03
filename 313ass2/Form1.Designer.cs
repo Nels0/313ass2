@@ -109,6 +109,7 @@
             this.saveFilterConfigToolStripMenuItem.Name = "saveFilterConfigToolStripMenuItem";
             this.saveFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.saveFilterConfigToolStripMenuItem.Text = "&Save Filter Config";
+            this.saveFilterConfigToolStripMenuItem.Click += new System.EventHandler(this.saveFilterConfigToolStripMenuItem_Click);
             // 
             // loadFilterConfigToolStripMenuItem
             // 
@@ -328,13 +329,12 @@
             // 
             // filterLengthUpDown
             // 
-            this.filterLengthUpDown.DecimalPlaces = 1;
-            this.filterLengthUpDown.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            65536});
             this.filterLengthUpDown.Location = new System.Drawing.Point(691, 100);
+            this.filterLengthUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.filterLengthUpDown.Name = "filterLengthUpDown";
             this.filterLengthUpDown.Size = new System.Drawing.Size(55, 20);
             this.filterLengthUpDown.TabIndex = 21;
