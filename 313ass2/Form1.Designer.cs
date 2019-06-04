@@ -46,14 +46,12 @@
             this.heaterButton = new System.Windows.Forms.Button();
             this.fanButton = new System.Windows.Forms.Button();
             this.controllerRunButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.filterTypeCombo = new System.Windows.Forms.ComboBox();
             this.filterLengthUpDown = new System.Windows.Forms.NumericUpDown();
@@ -77,7 +75,11 @@
             this.ambientTempDisplay = new System.Windows.Forms.TextBox();
             this.setTempLabel = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.controllerInputTemp = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.filterBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label19 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).BeginInit();
@@ -91,12 +93,13 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.PaleGoldenrod;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(805, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -137,18 +140,19 @@
             this.loadFilterConfigToolStripMenuItem.Name = "loadFilterConfigToolStripMenuItem";
             this.loadFilterConfigToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.loadFilterConfigToolStripMenuItem.Text = "&Load Custom Filter Config";
+            this.loadFilterConfigToolStripMenuItem.Click += new System.EventHandler(this.loadFilterConfigToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 428);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 289);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(805, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // temperature1
             // 
-            this.temperature1.Location = new System.Drawing.Point(231, 175);
+            this.temperature1.Location = new System.Drawing.Point(172, 93);
             this.temperature1.Name = "temperature1";
             this.temperature1.Size = new System.Drawing.Size(49, 20);
             this.temperature1.TabIndex = 2;
@@ -156,7 +160,7 @@
             // 
             // temperature2
             // 
-            this.temperature2.Location = new System.Drawing.Point(301, 175);
+            this.temperature2.Location = new System.Drawing.Point(242, 93);
             this.temperature2.Name = "temperature2";
             this.temperature2.Size = new System.Drawing.Size(46, 20);
             this.temperature2.TabIndex = 3;
@@ -164,7 +168,7 @@
             // 
             // temperature3
             // 
-            this.temperature3.Location = new System.Drawing.Point(371, 176);
+            this.temperature3.Location = new System.Drawing.Point(312, 94);
             this.temperature3.Name = "temperature3";
             this.temperature3.Size = new System.Drawing.Size(46, 20);
             this.temperature3.TabIndex = 4;
@@ -175,7 +179,7 @@
             this.temp1CheckBox.AutoSize = true;
             this.temp1CheckBox.Checked = true;
             this.temp1CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp1CheckBox.Location = new System.Drawing.Point(231, 200);
+            this.temp1CheckBox.Location = new System.Drawing.Point(190, 117);
             this.temp1CheckBox.Name = "temp1CheckBox";
             this.temp1CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp1CheckBox.TabIndex = 5;
@@ -186,7 +190,7 @@
             this.temp2CheckBox.AutoSize = true;
             this.temp2CheckBox.Checked = true;
             this.temp2CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp2CheckBox.Location = new System.Drawing.Point(301, 201);
+            this.temp2CheckBox.Location = new System.Drawing.Point(258, 117);
             this.temp2CheckBox.Name = "temp2CheckBox";
             this.temp2CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp2CheckBox.TabIndex = 6;
@@ -197,7 +201,7 @@
             this.temp3CheckBox.AutoSize = true;
             this.temp3CheckBox.Checked = true;
             this.temp3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp3CheckBox.Location = new System.Drawing.Point(371, 201);
+            this.temp3CheckBox.Location = new System.Drawing.Point(328, 118);
             this.temp3CheckBox.Name = "temp3CheckBox";
             this.temp3CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp3CheckBox.TabIndex = 7;
@@ -211,56 +215,52 @@
             0,
             0,
             65536});
-            this.setTempBox.Location = new System.Drawing.Point(231, 251);
+            this.setTempBox.Location = new System.Drawing.Point(684, 95);
             this.setTempBox.Name = "setTempBox";
-            this.setTempBox.Size = new System.Drawing.Size(55, 20);
+            this.setTempBox.Size = new System.Drawing.Size(49, 20);
             this.setTempBox.TabIndex = 8;
             this.setTempBox.ValueChanged += new System.EventHandler(this.setTempBox_ValueChanged);
             // 
             // heaterButton
             // 
-            this.heaterButton.Location = new System.Drawing.Point(93, 71);
+            this.heaterButton.BackColor = System.Drawing.Color.GhostWhite;
+            this.heaterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.heaterButton.Location = new System.Drawing.Point(375, 181);
             this.heaterButton.Name = "heaterButton";
-            this.heaterButton.Size = new System.Drawing.Size(75, 23);
+            this.heaterButton.Size = new System.Drawing.Size(116, 33);
             this.heaterButton.TabIndex = 9;
             this.heaterButton.Text = "Heater";
-            this.heaterButton.UseVisualStyleBackColor = true;
+            this.heaterButton.UseVisualStyleBackColor = false;
             this.heaterButton.Click += new System.EventHandler(this.heaterButton_Click);
             // 
             // fanButton
             // 
-            this.fanButton.Location = new System.Drawing.Point(193, 71);
+            this.fanButton.BackColor = System.Drawing.Color.GhostWhite;
+            this.fanButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.fanButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.fanButton.Location = new System.Drawing.Point(375, 226);
             this.fanButton.Name = "fanButton";
-            this.fanButton.Size = new System.Drawing.Size(75, 23);
+            this.fanButton.Size = new System.Drawing.Size(116, 33);
             this.fanButton.TabIndex = 10;
             this.fanButton.Text = "Fan";
-            this.fanButton.UseVisualStyleBackColor = true;
+            this.fanButton.UseVisualStyleBackColor = false;
             this.fanButton.Click += new System.EventHandler(this.fanButton_Click);
             // 
             // controllerRunButton
             // 
-            this.controllerRunButton.Location = new System.Drawing.Point(671, 377);
+            this.controllerRunButton.BackColor = System.Drawing.Color.GhostWhite;
+            this.controllerRunButton.Location = new System.Drawing.Point(201, 246);
             this.controllerRunButton.Name = "controllerRunButton";
             this.controllerRunButton.Size = new System.Drawing.Size(75, 23);
             this.controllerRunButton.TabIndex = 11;
             this.controllerRunButton.Text = "Start";
-            this.controllerRunButton.UseVisualStyleBackColor = true;
+            this.controllerRunButton.UseVisualStyleBackColor = false;
             this.controllerRunButton.Click += new System.EventHandler(this.ControllerRunButton_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(566, 382);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Chamber Controller:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(101, 253);
+            this.label2.Location = new System.Drawing.Point(680, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 13);
             this.label2.TabIndex = 13;
@@ -269,7 +269,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(101, 200);
+            this.label3.Location = new System.Drawing.Point(42, 118);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 13);
             this.label3.TabIndex = 14;
@@ -278,7 +278,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(101, 178);
+            this.label4.Location = new System.Drawing.Point(42, 96);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(110, 13);
             this.label4.TabIndex = 15;
@@ -287,7 +287,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(231, 156);
+            this.label5.Location = new System.Drawing.Point(172, 74);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(49, 13);
             this.label5.TabIndex = 16;
@@ -297,7 +297,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(298, 156);
+            this.label6.Location = new System.Drawing.Point(239, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 17;
@@ -306,28 +306,11 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(368, 157);
+            this.label7.Location = new System.Drawing.Point(309, 75);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 18;
             this.label7.Text = "Sensor 3";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "dev0",
-            "dev1",
-            "dev2",
-            "dev3",
-            "dev4",
-            "dev5",
-            "dev6"});
-            this.comboBox1.Location = new System.Drawing.Point(607, 282);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 19;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // timer1
             // 
@@ -337,22 +320,27 @@
             // 
             // filterTypeCombo
             // 
+            this.filterTypeCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.filterTypeCombo.Items.AddRange(new object[] {
             "Average",
             "Linear (Ramp)",
-            "Exponential"});
-            this.filterTypeCombo.Location = new System.Drawing.Point(625, 73);
+            "Custom"});
+            this.filterTypeCombo.Location = new System.Drawing.Point(644, 192);
             this.filterTypeCombo.Name = "filterTypeCombo";
             this.filterTypeCombo.Size = new System.Drawing.Size(121, 21);
             this.filterTypeCombo.TabIndex = 20;
-            this.filterTypeCombo.Text = "Average";
             this.filterTypeCombo.SelectedIndexChanged += new System.EventHandler(this.filterTypeCombo_SelectedIndexChanged);
             // 
             // filterLengthUpDown
             // 
-            this.filterLengthUpDown.Location = new System.Drawing.Point(691, 100);
+            this.filterLengthUpDown.Location = new System.Drawing.Point(710, 219);
             this.filterLengthUpDown.Maximum = new decimal(new int[] {
             1000,
+            0,
+            0,
+            0});
+            this.filterLengthUpDown.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -368,7 +356,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(556, 73);
+            this.label8.Location = new System.Drawing.Point(575, 192);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 22;
@@ -377,7 +365,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(556, 102);
+            this.label9.Location = new System.Drawing.Point(575, 221);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(68, 13);
             this.label9.TabIndex = 23;
@@ -390,18 +378,20 @@
             // 
             // filterUpdateButton
             // 
-            this.filterUpdateButton.Location = new System.Drawing.Point(671, 126);
+            this.filterUpdateButton.BackColor = System.Drawing.Color.GhostWhite;
+            this.filterUpdateButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.filterUpdateButton.Location = new System.Drawing.Point(690, 245);
             this.filterUpdateButton.Name = "filterUpdateButton";
             this.filterUpdateButton.Size = new System.Drawing.Size(75, 23);
             this.filterUpdateButton.TabIndex = 24;
             this.filterUpdateButton.Text = "Update Filter";
-            this.filterUpdateButton.UseVisualStyleBackColor = true;
+            this.filterUpdateButton.UseVisualStyleBackColor = false;
             this.filterUpdateButton.Click += new System.EventHandler(this.filterUpdateButton_Click);
             // 
             // exitButton
             // 
             this.exitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.exitButton.Location = new System.Drawing.Point(763, 2);
+            this.exitButton.Location = new System.Drawing.Point(770, 0);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(35, 22);
             this.exitButton.TabIndex = 25;
@@ -417,7 +407,7 @@
             0,
             0,
             65536});
-            this.kpUpDown.Location = new System.Drawing.Point(104, 343);
+            this.kpUpDown.Location = new System.Drawing.Point(88, 192);
             this.kpUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -446,7 +436,7 @@
             0,
             0,
             131072});
-            this.kiUpDown.Location = new System.Drawing.Point(104, 369);
+            this.kiUpDown.Location = new System.Drawing.Point(88, 218);
             this.kiUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -470,7 +460,7 @@
             0,
             0,
             65536});
-            this.kdUpDown.Location = new System.Drawing.Point(104, 395);
+            this.kdUpDown.Location = new System.Drawing.Point(88, 244);
             this.kdUpDown.Maximum = new decimal(new int[] {
             10,
             0,
@@ -489,7 +479,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(46, 349);
+            this.label10.Location = new System.Drawing.Point(30, 198);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(39, 13);
             this.label10.TabIndex = 29;
@@ -498,7 +488,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(46, 371);
+            this.label11.Location = new System.Drawing.Point(30, 220);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(35, 13);
             this.label11.TabIndex = 30;
@@ -507,7 +497,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(46, 397);
+            this.label12.Location = new System.Drawing.Point(30, 246);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(40, 13);
             this.label12.TabIndex = 31;
@@ -521,7 +511,7 @@
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(249, 343);
+            this.numericUpDown1.Location = new System.Drawing.Point(233, 192);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             10,
             0,
@@ -550,7 +540,7 @@
             0,
             0,
             65536});
-            this.numericUpDown2.Location = new System.Drawing.Point(249, 369);
+            this.numericUpDown2.Location = new System.Drawing.Point(233, 218);
             this.numericUpDown2.Maximum = new decimal(new int[] {
             10,
             0,
@@ -574,7 +564,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(153, 345);
+            this.label13.Location = new System.Drawing.Point(137, 194);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(76, 13);
             this.label13.TabIndex = 34;
@@ -583,7 +573,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(153, 371);
+            this.label14.Location = new System.Drawing.Point(137, 220);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(90, 13);
             this.label14.TabIndex = 35;
@@ -592,7 +582,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(119, 316);
+            this.label15.Location = new System.Drawing.Point(103, 165);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(92, 13);
             this.label15.TabIndex = 36;
@@ -601,7 +591,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(101, 229);
+            this.label16.Location = new System.Drawing.Point(554, 73);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(108, 13);
             this.label16.TabIndex = 37;
@@ -610,16 +600,16 @@
             // 
             // ambientTempDisplay
             // 
-            this.ambientTempDisplay.Location = new System.Drawing.Point(231, 222);
+            this.ambientTempDisplay.Location = new System.Drawing.Point(533, 94);
             this.ambientTempDisplay.Name = "ambientTempDisplay";
-            this.ambientTempDisplay.Size = new System.Drawing.Size(37, 20);
+            this.ambientTempDisplay.Size = new System.Drawing.Size(49, 20);
             this.ambientTempDisplay.TabIndex = 38;
             this.ambientTempDisplay.Text = "0";
             // 
             // setTempLabel
             // 
             this.setTempLabel.AutoSize = true;
-            this.setTempLabel.Location = new System.Drawing.Point(314, 253);
+            this.setTempLabel.Location = new System.Drawing.Point(752, 97);
             this.setTempLabel.Name = "setTempLabel";
             this.setTempLabel.Size = new System.Drawing.Size(13, 13);
             this.setTempLabel.TabIndex = 39;
@@ -628,22 +618,63 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(216, 253);
+            this.label18.Location = new System.Drawing.Point(669, 97);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(13, 13);
             this.label18.TabIndex = 40;
             this.label18.Text = "+";
             // 
+            // controllerInputTemp
+            // 
+            this.controllerInputTemp.Location = new System.Drawing.Point(389, 94);
+            this.controllerInputTemp.Name = "controllerInputTemp";
+            this.controllerInputTemp.Size = new System.Drawing.Size(46, 20);
+            this.controllerInputTemp.TabIndex = 41;
+            this.controllerInputTemp.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(376, 75);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(78, 13);
+            this.label17.TabIndex = 42;
+            this.label17.Text = "Controller Input";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(588, 92);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 43;
+            this.button1.Text = "Reacquire";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // filterBindingSource
             // 
             this.filterBindingSource.DataSource = typeof(_313ass2.Filter);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(641, 165);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(70, 13);
+            this.label19.TabIndex = 44;
+            this.label19.Text = "Filter Settings";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.Color.GhostWhite;
+            this.ClientSize = new System.Drawing.Size(805, 311);
             this.ControlBox = false;
+            this.Controls.Add(this.label19);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.controllerInputTemp);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.setTempLabel);
             this.Controls.Add(this.ambientTempDisplay);
@@ -665,14 +696,12 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.filterLengthUpDown);
             this.Controls.Add(this.filterTypeCombo);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.controllerRunButton);
             this.Controls.Add(this.fanButton);
             this.Controls.Add(this.heaterButton);
@@ -685,6 +714,7 @@
             this.Controls.Add(this.temperature1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -724,7 +754,6 @@
         private System.Windows.Forms.CheckBox temp3CheckBox;
         private System.Windows.Forms.NumericUpDown setTempBox;
         private System.Windows.Forms.Button controllerRunButton;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -733,7 +762,6 @@
         private System.Windows.Forms.Label label7;
         public System.Windows.Forms.Button heaterButton;
         public System.Windows.Forms.Button fanButton;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ComboBox filterTypeCombo;
         private System.Windows.Forms.NumericUpDown filterLengthUpDown;
@@ -758,6 +786,10 @@
         private System.Windows.Forms.TextBox ambientTempDisplay;
         private System.Windows.Forms.Label setTempLabel;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox controllerInputTemp;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label19;
     }
 }
 

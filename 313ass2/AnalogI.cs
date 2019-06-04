@@ -46,19 +46,20 @@ namespace ReadWrite
 
         public double ReadData()
         {
+        
+                data = reader.ReadWaveform(samplesPerChannel);
+
+                double sum = 0;
+                for (int i = 0; i < samplesPerChannel; i++)
+                {
+                    sum += data.Samples[i].Value;
+                    //Console.WriteLine("Sample{0}=>time={1}, value={2}", i + 1, data.Samples[i].TimeStamp, data.Samples[i].Value);
+                }
+
+
+
+                return sum / samplesPerChannel;
             
-            data = reader.ReadWaveform(samplesPerChannel);
-
-            double sum = 0;
-            for (int i = 0; i < samplesPerChannel; i++)
-            {
-                sum += data.Samples[i].Value;
-                //Console.WriteLine("Sample{0}=>time={1}, value={2}", i + 1, data.Samples[i].TimeStamp, data.Samples[i].Value);
-            }
-
-
-
-            return sum / samplesPerChannel;
             
             //return reader.ReadSingleSample();
 

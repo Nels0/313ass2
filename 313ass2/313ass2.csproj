@@ -52,15 +52,14 @@
   <ItemGroup>
     <Reference Include="NationalInstruments.Common, Version=13.5.35.173, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\nass\NationalInstruments.Common.dll</HintPath>
+      <HintPath>..\..\Assemblies\NationalInstruments.Common.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Common.Native, Version=12.0.20.258, Culture=neutral, PublicKeyToken=4544464cdeaab541, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\nass\NationalInstruments.Common.Native.dll</HintPath>
+      <HintPath>..\..\Assemblies\NationalInstruments.Common.Native.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.DAQmx, Version=8.9.35.210, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\nass\NationalInstruments.DAQmx.dll</HintPath>
+    <Reference Include="NationalInstruments.DAQmx">
+      <HintPath>..\..\Assemblies\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -105,6 +104,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\Assemblies\NationalInstruments.Common.dll" />
+    <Analyzer Include="..\..\Assemblies\NationalInstruments.Common.Native.dll" />
+    <Analyzer Include="..\..\Assemblies\NationalInstruments.DAQmx.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
