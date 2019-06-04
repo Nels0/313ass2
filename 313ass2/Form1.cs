@@ -445,6 +445,31 @@ namespace _313ass2
             chamber1.ambientTemp = chamber1.controlTemp;
             sensors.ambientTemp = chamber1.controlTemp;
         }
+
+        private void Label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Temp1CheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Temperature3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
     class Tool
