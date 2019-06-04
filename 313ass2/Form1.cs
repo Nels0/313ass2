@@ -80,7 +80,9 @@ namespace _313ass2
             sensors = new SensorArray(bufferLength, device, filter);
 
             chamber1 = new Chamber(device);
-            
+
+            chamber1.ambientTemp = sensors.ambientTemp;
+
             //Button update event handlers
             chamber1.fan.ToolChanged += c_ToolChanged;
             chamber1.heater.ToolChanged += c_ToolChanged;
@@ -97,9 +99,8 @@ namespace _313ass2
             for(int i = 1; i <= 3; i++) {
                 File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
             }
+            
 
-            Thread.Sleep(100);
-            chamber1.ambientTemp = sensors.temp2;
         }
 
         public static double[] Convolve(double[] sensorReadings, double[] filterValues,  int ringIndex)
@@ -153,6 +154,8 @@ namespace _313ass2
             else
             {
                 controllerRunButton.Text = "Start";
+                chamber1.heater.on = false;
+                chamber1.fan.on = false;
             }
                        
         }
@@ -175,7 +178,6 @@ namespace _313ass2
 
         private void Form1_Closing(Object sender, FormClosingEventArgs e) //TODO: figure out why this isn't firing?!
         {
-            chamber1.active = false;
             System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
             messageBoxCS.AppendFormat("{0} = {1}", "CloseReason", e.CloseReason);
             messageBoxCS.AppendLine();
@@ -242,27 +244,61 @@ namespace _313ass2
         }
 
         private void timer1_Tick(object sender, EventArgs e)
-        {
-            //TODO: Thread this whole thing
-
-            
-            chamber1.controlTemp = sensors.temp1;
-
-            temperature1.Text = sensors.temp1.ToString();
-            temperature2.Text = sensors.temp2.ToString();
-            temperature3.Text = sensors.temp3.ToString();
-
+        {   
             
 
+            temperature1.Text = sensors.temp1.ToString("N2");
+            temperature2.Text = sensors.temp2.ToString("N2");
+            temperature3.Text = sensors.temp3.ToString("N2");
 
-            //double[] temp1_filtered = Convolve(sensors.sens1Buffer, filter.FilterArray, sensors.ringIndex);
+            ambientTempDisplay.Text = sensors.ambientTemp.ToString("N2");
+
+            setTempLabel.Text = (sensors.ambientTemp + chamber1.setPoint).ToString("N2");
         }
 
         private void exitButton_Click(object sender, EventArgs e)
         {
             //TODO: Exit properly
-            chamber1.active = false;
-            this.Hide();
+            //this.Hide();
+        }
+
+        private void kpUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            chamber1.kp = (double)kpUpDown.Value;
+        }
+
+        private void kiUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            chamber1.ki = (double)kiUpDown.Value;
+        }
+
+        private void kdUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            chamber1.kd = (double)kdUpDown.Value;
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            chamber1.fanThreshold = (double)numericUpDown1.Value;
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            chamber1.heaterThreshold = (double)numericUpDown2.Value;
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            //Transfer values
+            chamber1.controlTemp = sensors.temp1;
+            
+            chamber1.cycle = true;
+            sensors.cycle = true;
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
@@ -338,7 +374,7 @@ namespace _313ass2
 
         
 
-        public bool active = true;
+        public bool cycle = true;
 
         public double controlTemp;
         public double ambientTemp;
@@ -347,10 +383,17 @@ namespace _313ass2
 
         public double kp = 1;
         public double ki = 0;
+        public double kd = 0;
         double error = 0;
         double P = 0;
         double I = 0;
+        double D = 0;
         double y = 0;
+
+        double error_last = 0;
+
+        public double heaterThreshold = 0.2;
+        public double fanThreshold = 0.4;
 
         private double _setPoint;
 
@@ -366,7 +409,7 @@ namespace _313ass2
         {
             //string device = "dev6";
             dOut.OpenChannel(device+"/port0", "DigitalChn0");
-            controllerEnabled = true;
+            controllerEnabled = false;
             setPoint = 0;
         }
 
@@ -374,45 +417,50 @@ namespace _313ass2
         public  void Controller()
         {
             //Controller calculations
+
+
             while (true)
             {
-                if (active || Math.Abs(error) > 1)
+                if (cycle)
                 {
 
                     error = _setPoint + ambientTemp - controlTemp;
 
                     P = error * kp;
                     I += error * ki;
-                    y = P + I;
+                    D = (error - error_last) * kd;
+                    y = P + I + D;
+                    error_last = error;
 
                     //Convert to output and
                     //Only apply output if controller is "started"
                     if (controllerEnabled)
                     {
-                        if (y > 0)
+                        if (y > heaterThreshold)
                         {
                             heater.on = true;
                             fan.on = false;
                         }
-                        else
+                        else if (y < fanThreshold)
                         {
                             heater.on = false;
                             fan.on = true;
                         }
+                        else
+                        {
+                            heater.on = false;
+                            fan.on = false;
+                        }
                     }
-                    else
-                    {
-                        heater.on = false;
-                        fan.on = false;
-                    }
-
-                    Thread.Sleep(100); // Run PID loop at ~100hz
+                    
+                    cycle = false;
                 }
                 else
                 {
-                    break;
+                    Thread.Sleep(1);
                 }
             }
+            
 
             
         }
@@ -557,6 +605,10 @@ namespace _313ass2
 
         Filter _filter;
 
+        public double ambientTemp;
+
+        public bool cycle;
+
         public int ringIndex;
         public double[] sens1Buffer;
         public double[] sens2Buffer;
@@ -576,6 +628,9 @@ namespace _313ass2
             sens1Buffer = new double[bufferLength];
             sens2Buffer = new double[bufferLength];
             sens3Buffer = new double[bufferLength];
+
+            ambientTemp = sensor2.getSensorTemp();
+
         }
 
 
@@ -583,56 +638,66 @@ namespace _313ass2
         {
             while (true)
             {
+
+                if (cycle)
+                {
+                    //string date = DateTime.Now.ToString("HH:mm:ss.fff");
+                    Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+                    string date = unixTimestamp.ToString();
+
+                    string logfolder = Application.StartupPath + "\\logfiles";
+                    System.IO.Directory.CreateDirectory(logfolder);
+
+                    //TODO put sensors into a list so we avoid duplication
+
+                    double t_temp1 = sensor1.getSensorTemp();
+                    double t_temp2 = sensor2.getSensorTemp();
+                    double t_temp3 = sensor3.getSensorTemp();
+
+                    sens1Buffer[ringIndex] = t_temp1;
+                    sens2Buffer[ringIndex] = t_temp2;
+                    sens3Buffer[ringIndex] = t_temp3;
+                    ringIndex = (ringIndex + 1) % _bufferLength;
+
+                    double[] filteredBuffer1 = new double[_bufferLength];
+                    double[] filteredBuffer2 = new double[_bufferLength];
+                    double[] filteredBuffer3 = new double[_bufferLength];
+
+                    //convolve to denoise
+                    filteredBuffer1 = Form1.Convolve(sens1Buffer, _filter.FilterArray, ringIndex);
+                    filteredBuffer2 = Form1.Convolve(sens2Buffer, _filter.FilterArray, ringIndex);
+                    filteredBuffer3 = Form1.Convolve(sens3Buffer, _filter.FilterArray, ringIndex);
+
+                    //set last value of filtered buffer to temp1
+                    temp1 = filteredBuffer1[_bufferLength - 1];
+                    temp2 = filteredBuffer2[_bufferLength - 1];
+                    temp3 = filteredBuffer3[_bufferLength - 1];
+
+                    using (StreamWriter sw = new StreamWriter(logfolder + "/log1.txt", append: true))
+                    {
+                        sw.WriteLine(date + " " + t_temp1.ToString() + " " + temp1.ToString());
+                        sw.Close();
+                    }
+
+                    using (StreamWriter sw = new StreamWriter(logfolder + "/log2.txt", append: true))
+                    {
+                        sw.WriteLine(date + " " + t_temp2.ToString() + " " + temp2.ToString());
+                        sw.Close();
+                    }
+
+                    using (StreamWriter sw = new StreamWriter(logfolder + "/log3.txt", append: true))
+                    {
+                        sw.WriteLine(date + " " + t_temp3.ToString() + " " + temp3.ToString());
+                        sw.Close();
+                    }
+
+                    cycle = false;
+                }
+                else
+                {
+                    Thread.Sleep(1);
+                }
                 
-                string date = DateTime.Now.ToString("HH:mm:ss.fff");
-
-                string logfolder = Application.StartupPath + "\\logfiles";
-                System.IO.Directory.CreateDirectory(logfolder);
-
-                //TODO put sensors into a list so we avoid duplication
-
-                double t_temp1 = sensor1.getSensorTemp();
-                double t_temp2 = sensor2.getSensorTemp();
-                double t_temp3 = sensor3.getSensorTemp();
-
-                sens1Buffer[ringIndex] = t_temp1;
-                sens2Buffer[ringIndex] = t_temp2;
-                sens3Buffer[ringIndex] = t_temp3;
-                ringIndex = (ringIndex + 1) % _bufferLength;
-
-                double[] filteredBuffer1 = new double[_bufferLength];
-                double[] filteredBuffer2 = new double[_bufferLength];
-                double[] filteredBuffer3 = new double[_bufferLength];
-
-                //convolve to denoise
-                filteredBuffer1 = Form1.Convolve(sens1Buffer, _filter.FilterArray, ringIndex);
-                filteredBuffer2 = Form1.Convolve(sens2Buffer, _filter.FilterArray, ringIndex);
-                filteredBuffer3 = Form1.Convolve(sens3Buffer, _filter.FilterArray, ringIndex);
-
-                //set last value of filtered buffer to temp1
-                temp1 = filteredBuffer1[_bufferLength - 1];
-                temp2 = filteredBuffer2[_bufferLength - 1];
-                temp3 = filteredBuffer3[_bufferLength - 1];
-
-                using (StreamWriter sw = new StreamWriter(logfolder + "/log1.txt", append: true))
-                {
-                    sw.WriteLine(date + " " + t_temp1.ToString() + " " + temp1.ToString());
-                    sw.Close();
-                }
-
-                using (StreamWriter sw = new StreamWriter(logfolder + "/log2.txt", append: true))
-                {
-                    sw.WriteLine(date + " " + t_temp2.ToString() + " " + temp2.ToString());
-                    sw.Close();
-                }
-
-                using (StreamWriter sw = new StreamWriter(logfolder + "/log3.txt", append: true))
-                {
-                    sw.WriteLine(date + " " + t_temp3.ToString() + " " + temp3.ToString());
-                    sw.Close();
-                }
-
-                Thread.Sleep(500);
             }
         }
     }

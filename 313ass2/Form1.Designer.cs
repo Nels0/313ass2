@@ -36,7 +36,6 @@
             this.saveFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadFilterConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.connectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.temperature1 = new System.Windows.Forms.TextBox();
             this.temperature2 = new System.Windows.Forms.TextBox();
             this.temperature3 = new System.Windows.Forms.TextBox();
@@ -62,12 +61,31 @@
             this.label9 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.filterUpdateButton = new System.Windows.Forms.Button();
-            this.filterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.exitButton = new System.Windows.Forms.Button();
+            this.kpUpDown = new System.Windows.Forms.NumericUpDown();
+            this.kiUpDown = new System.Windows.Forms.NumericUpDown();
+            this.kdUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.ambientTempDisplay = new System.Windows.Forms.TextBox();
+            this.setTempLabel = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.filterBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kpUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kiUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kdUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,41 +140,33 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connectionStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // connectionStatus
-            // 
-            this.connectionStatus.Name = "connectionStatus";
-            this.connectionStatus.Size = new System.Drawing.Size(134, 17);
-            this.connectionStatus.Text = "ELVIS NOT CONNECTED";
-            // 
             // temperature1
             // 
             this.temperature1.Location = new System.Drawing.Point(231, 175);
             this.temperature1.Name = "temperature1";
-            this.temperature1.Size = new System.Drawing.Size(100, 20);
+            this.temperature1.Size = new System.Drawing.Size(49, 20);
             this.temperature1.TabIndex = 2;
             this.temperature1.Text = "0";
             // 
             // temperature2
             // 
-            this.temperature2.Location = new System.Drawing.Point(337, 175);
+            this.temperature2.Location = new System.Drawing.Point(301, 175);
             this.temperature2.Name = "temperature2";
-            this.temperature2.Size = new System.Drawing.Size(100, 20);
+            this.temperature2.Size = new System.Drawing.Size(46, 20);
             this.temperature2.TabIndex = 3;
             this.temperature2.Text = "0";
             // 
             // temperature3
             // 
-            this.temperature3.Location = new System.Drawing.Point(443, 175);
+            this.temperature3.Location = new System.Drawing.Point(371, 176);
             this.temperature3.Name = "temperature3";
-            this.temperature3.Size = new System.Drawing.Size(100, 20);
+            this.temperature3.Size = new System.Drawing.Size(46, 20);
             this.temperature3.TabIndex = 4;
             this.temperature3.Text = "0";
             // 
@@ -165,7 +175,7 @@
             this.temp1CheckBox.AutoSize = true;
             this.temp1CheckBox.Checked = true;
             this.temp1CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp1CheckBox.Location = new System.Drawing.Point(253, 200);
+            this.temp1CheckBox.Location = new System.Drawing.Point(231, 200);
             this.temp1CheckBox.Name = "temp1CheckBox";
             this.temp1CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp1CheckBox.TabIndex = 5;
@@ -176,7 +186,7 @@
             this.temp2CheckBox.AutoSize = true;
             this.temp2CheckBox.Checked = true;
             this.temp2CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp2CheckBox.Location = new System.Drawing.Point(368, 201);
+            this.temp2CheckBox.Location = new System.Drawing.Point(301, 201);
             this.temp2CheckBox.Name = "temp2CheckBox";
             this.temp2CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp2CheckBox.TabIndex = 6;
@@ -187,7 +197,7 @@
             this.temp3CheckBox.AutoSize = true;
             this.temp3CheckBox.Checked = true;
             this.temp3CheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.temp3CheckBox.Location = new System.Drawing.Point(481, 200);
+            this.temp3CheckBox.Location = new System.Drawing.Point(371, 201);
             this.temp3CheckBox.Name = "temp3CheckBox";
             this.temp3CheckBox.Size = new System.Drawing.Size(15, 14);
             this.temp3CheckBox.TabIndex = 7;
@@ -201,7 +211,7 @@
             0,
             0,
             65536});
-            this.setTempBox.Location = new System.Drawing.Point(231, 234);
+            this.setTempBox.Location = new System.Drawing.Point(231, 251);
             this.setTempBox.Name = "setTempBox";
             this.setTempBox.Size = new System.Drawing.Size(55, 20);
             this.setTempBox.TabIndex = 8;
@@ -250,7 +260,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(101, 236);
+            this.label2.Location = new System.Drawing.Point(101, 253);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 13);
             this.label2.TabIndex = 13;
@@ -259,7 +269,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(101, 201);
+            this.label3.Location = new System.Drawing.Point(101, 200);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(114, 13);
             this.label3.TabIndex = 14;
@@ -287,7 +297,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(334, 156);
+            this.label6.Location = new System.Drawing.Point(298, 156);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 17;
@@ -296,7 +306,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(447, 156);
+            this.label7.Location = new System.Drawing.Point(368, 157);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(49, 13);
             this.label7.TabIndex = 18;
@@ -313,7 +323,7 @@
             "dev4",
             "dev5",
             "dev6"});
-            this.comboBox1.Location = new System.Drawing.Point(625, 267);
+            this.comboBox1.Location = new System.Drawing.Point(607, 282);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 19;
@@ -349,6 +359,11 @@
             this.filterLengthUpDown.Name = "filterLengthUpDown";
             this.filterLengthUpDown.Size = new System.Drawing.Size(55, 20);
             this.filterLengthUpDown.TabIndex = 21;
+            this.filterLengthUpDown.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // label8
             // 
@@ -371,7 +386,7 @@
             // timer2
             // 
             this.timer2.Enabled = true;
-            this.timer2.Interval = 500;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // filterUpdateButton
             // 
@@ -382,10 +397,6 @@
             this.filterUpdateButton.Text = "Update Filter";
             this.filterUpdateButton.UseVisualStyleBackColor = true;
             this.filterUpdateButton.Click += new System.EventHandler(this.filterUpdateButton_Click);
-            // 
-            // filterBindingSource
-            // 
-            this.filterBindingSource.DataSource = typeof(_313ass2.Filter);
             // 
             // exitButton
             // 
@@ -398,12 +409,256 @@
             this.exitButton.UseVisualStyleBackColor = false;
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
+            // kpUpDown
+            // 
+            this.kpUpDown.DecimalPlaces = 2;
+            this.kpUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.kpUpDown.Location = new System.Drawing.Point(104, 343);
+            this.kpUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.kpUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.kpUpDown.Name = "kpUpDown";
+            this.kpUpDown.Size = new System.Drawing.Size(43, 20);
+            this.kpUpDown.TabIndex = 26;
+            this.kpUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.kpUpDown.ValueChanged += new System.EventHandler(this.kpUpDown_ValueChanged);
+            // 
+            // kiUpDown
+            // 
+            this.kiUpDown.DecimalPlaces = 2;
+            this.kiUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this.kiUpDown.Location = new System.Drawing.Point(104, 369);
+            this.kiUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.kiUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.kiUpDown.Name = "kiUpDown";
+            this.kiUpDown.Size = new System.Drawing.Size(43, 20);
+            this.kiUpDown.TabIndex = 27;
+            this.kiUpDown.ValueChanged += new System.EventHandler(this.kiUpDown_ValueChanged);
+            // 
+            // kdUpDown
+            // 
+            this.kdUpDown.DecimalPlaces = 2;
+            this.kdUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.kdUpDown.Location = new System.Drawing.Point(104, 395);
+            this.kdUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.kdUpDown.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.kdUpDown.Name = "kdUpDown";
+            this.kdUpDown.Size = new System.Drawing.Size(43, 20);
+            this.kdUpDown.TabIndex = 28;
+            this.kdUpDown.ValueChanged += new System.EventHandler(this.kdUpDown_ValueChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(46, 349);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(39, 13);
+            this.label10.TabIndex = 29;
+            this.label10.Text = "P Gain";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(46, 371);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(35, 13);
+            this.label11.TabIndex = 30;
+            this.label11.Text = "I Gain";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(46, 397);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(40, 13);
+            this.label12.TabIndex = 31;
+            this.label12.Text = "D Gain";
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.DecimalPlaces = 2;
+            this.numericUpDown1.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown1.Location = new System.Drawing.Point(249, 343);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDown1.TabIndex = 32;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            65536});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.DecimalPlaces = 2;
+            this.numericUpDown2.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.numericUpDown2.Location = new System.Drawing.Point(249, 369);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            -2147483648});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(43, 20);
+            this.numericUpDown2.TabIndex = 33;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            65536});
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(153, 345);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(76, 13);
+            this.label13.TabIndex = 34;
+            this.label13.Text = "Fan Hysteresis";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(153, 371);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(90, 13);
+            this.label14.TabIndex = 35;
+            this.label14.Text = "Heater Hysteresis";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(119, 316);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(92, 13);
+            this.label15.TabIndex = 36;
+            this.label15.Text = "Controller Settings";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(101, 229);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(108, 13);
+            this.label16.TabIndex = 37;
+            this.label16.Text = "Ambient Temperature";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
+            // 
+            // ambientTempDisplay
+            // 
+            this.ambientTempDisplay.Location = new System.Drawing.Point(231, 222);
+            this.ambientTempDisplay.Name = "ambientTempDisplay";
+            this.ambientTempDisplay.Size = new System.Drawing.Size(37, 20);
+            this.ambientTempDisplay.TabIndex = 38;
+            this.ambientTempDisplay.Text = "0";
+            // 
+            // setTempLabel
+            // 
+            this.setTempLabel.AutoSize = true;
+            this.setTempLabel.Location = new System.Drawing.Point(314, 253);
+            this.setTempLabel.Name = "setTempLabel";
+            this.setTempLabel.Size = new System.Drawing.Size(13, 13);
+            this.setTempLabel.TabIndex = 39;
+            this.setTempLabel.Text = "0";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(216, 253);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(13, 13);
+            this.label18.TabIndex = 40;
+            this.label18.Text = "+";
+            // 
+            // filterBindingSource
+            // 
+            this.filterBindingSource.DataSource = typeof(_313ass2.Filter);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.setTempLabel);
+            this.Controls.Add(this.ambientTempDisplay);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.kdUpDown);
+            this.Controls.Add(this.kiUpDown);
+            this.Controls.Add(this.kpUpDown);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.filterUpdateButton);
             this.Controls.Add(this.label9);
@@ -439,10 +694,13 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.setTempBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterLengthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kpUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kiUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kdUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.filterBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -484,8 +742,22 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Button filterUpdateButton;
         private System.Windows.Forms.BindingSource filterBindingSource;
-        private System.Windows.Forms.ToolStripStatusLabel connectionStatus;
         private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.NumericUpDown kpUpDown;
+        private System.Windows.Forms.NumericUpDown kiUpDown;
+        private System.Windows.Forms.NumericUpDown kdUpDown;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox ambientTempDisplay;
+        private System.Windows.Forms.Label setTempLabel;
+        private System.Windows.Forms.Label label18;
     }
 }
 
