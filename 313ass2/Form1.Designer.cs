@@ -106,7 +106,6 @@
             this.menuStrip1.Size = new System.Drawing.Size(881, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -117,7 +116,6 @@
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "&File";
-            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // openLogfilesToolStripMenuItem
             // 
@@ -250,7 +248,7 @@
             this.setTempBox.DecimalPlaces = 2;
             this.setTempBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.setTempBox.Increment = new decimal(new int[] {
-            25,
+            1,
             0,
             0,
             131072});
@@ -318,7 +316,6 @@
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 13;
             this.label2.Text = "Setpoint";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // label5
             // 
@@ -331,7 +328,6 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Sensor 1";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -658,7 +654,6 @@
             this.label14.Size = new System.Drawing.Size(90, 13);
             this.label14.TabIndex = 35;
             this.label14.Text = "Heater Hysteresis";
-            this.label14.Click += new System.EventHandler(this.Label14_Click);
             // 
             // label16
             // 
@@ -669,7 +664,6 @@
             this.label16.Size = new System.Drawing.Size(108, 13);
             this.label16.TabIndex = 37;
             this.label16.Text = "Ambient Temperature";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // ambientTempDisplay
             // 
