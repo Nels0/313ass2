@@ -164,12 +164,11 @@ namespace _313ass2
 
         private void Form1_Closing(Object sender, FormClosingEventArgs e) //TODO: figure out why this isn't firing?!
         {
-            System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
-            messageBoxCS.AppendFormat("{0} = {1}", "CloseReason", e.CloseReason);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "Cancel", e.Cancel);
-            messageBoxCS.AppendLine();
-            MessageBox.Show(messageBoxCS.ToString(), "FormClosing Event");
+            if (exited == false)
+            {
+                e.Cancel = true;
+                exited = true;
+            }
         }
 
         private void filterUpdateButton_Click(object sender, EventArgs e)
@@ -382,7 +381,7 @@ namespace _313ass2
         //Exit Button
         private void exitButton_Click(object sender, EventArgs e)
         {
-            exited = true;
+            //exited = true;
             
         }
 

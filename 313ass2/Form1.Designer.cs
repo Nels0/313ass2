@@ -56,7 +56,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.filterUpdateButton = new System.Windows.Forms.Button();
-            this.exitButton = new System.Windows.Forms.Button();
             this.kpUpDown = new System.Windows.Forms.NumericUpDown();
             this.kiUpDown = new System.Windows.Forms.NumericUpDown();
             this.kdUpDown = new System.Windows.Forms.NumericUpDown();
@@ -438,21 +437,6 @@
             this.filterUpdateButton.Text = "Update Filter";
             this.filterUpdateButton.UseVisualStyleBackColor = false;
             this.filterUpdateButton.Click += new System.EventHandler(this.filterUpdateButton_Click);
-            // 
-            // exitButton
-            // 
-            this.exitButton.BackColor = System.Drawing.Color.Maroon;
-            this.exitButton.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
-            this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exitButton.Font = new System.Drawing.Font("Arial Black", 6F, System.Drawing.FontStyle.Bold);
-            this.exitButton.ForeColor = System.Drawing.Color.White;
-            this.exitButton.Location = new System.Drawing.Point(854, 2);
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(25, 20);
-            this.exitButton.TabIndex = 25;
-            this.exitButton.Text = "X";
-            this.exitButton.UseVisualStyleBackColor = false;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // kpUpDown
             // 
@@ -843,23 +827,22 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(29)))));
             this.ClientSize = new System.Drawing.Size(881, 547);
-            this.ControlBox = false;
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.fanButton);
             this.Controls.Add(this.heaterButton);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.Color.Gray;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Chamber Controller";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_Closing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -912,7 +895,6 @@
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Button filterUpdateButton;
         private System.Windows.Forms.BindingSource filterBindingSource;
-        private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.NumericUpDown kpUpDown;
         private System.Windows.Forms.NumericUpDown kiUpDown;
         private System.Windows.Forms.NumericUpDown kdUpDown;
