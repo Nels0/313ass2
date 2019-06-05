@@ -1,4 +1,4 @@
-using ReadWrite;
+﻿using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +18,23 @@ namespace _313ass2
 
         public Sensor(int ID, string device, double sRo, double sB, double sTo, int filterLength)
         {
+            int success = 0; ;
             buffer = new double[filterLength];
-            analogInput = new AnalogI();
+            try
+            {
+                analogInput = new AnalogI();
+            }
+            catch { }
             Ro = sRo;
             B = sB;
             To = sTo;
             refV = 5;
             this.device = device;
-            int success = analogInput.OpenChannel(device + "/ai" + ID, "Ainput");
+            try
+            {
+                success = analogInput.OpenChannel(device + "/ai" + ID, "Ainput");
+            }
+            catch { }
             if (success == 0)
             {
                 MessageBox.Show("Device not found");

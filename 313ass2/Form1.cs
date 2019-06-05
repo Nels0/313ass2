@@ -1,4 +1,4 @@
-using ReadWrite;
+﻿using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -69,7 +69,11 @@ namespace _313ass2
 
             //Delete old logfiles
             for (int i = 1; i <= 3; i++) {
-                File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
+                try
+                {
+                    File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
+                }
+                catch { }
             }
 
             timer1.Enabled = true;
@@ -105,8 +109,11 @@ namespace _313ass2
 
         void c_ToolChanged(object sender, ToolChangedEventArgs e) //ToolState button update handler
         {
-
-            Chamber.dOut.WriteData(Tool.toolRegister);
+            try
+            {
+                Chamber.dOut.WriteData(Tool.toolRegister);
+            }
+            catch { }
 
             int buttonID = e.button;
             Button stateButton;
@@ -361,7 +368,7 @@ namespace _313ass2
                 chamber1.setPoint = 0;
                 chamber1.controllerEnabled = true;
                 //If we've reached exit conditions of being cool enough
-                if (chamber1.controlTemp - chamber1.ambientTemp < 0) 
+                if (chamber1.controlTemp - chamber1.ambientTemp < 0.01) 
                 {
                     //stop system and nuke processes
                     chamber1.fan.on = false;

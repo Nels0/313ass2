@@ -1,4 +1,4 @@
-using ReadWrite;
+﻿using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,8 +55,14 @@ namespace _313ass2
             stopwatch = new Stopwatch();
             stopwatch.Start();
 
+
+            try
+            {
                 dOut = new DigitalO();
-            dOut.OpenChannel(device + "/port0", "DigitalChn0");
+
+                dOut.OpenChannel(device + "/port0", "DigitalChn0");
+            }
+            catch { }
             controllerEnabled = false;
             setPoint = 0;
         }
