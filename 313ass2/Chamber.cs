@@ -1,4 +1,4 @@
-﻿using ReadWrite;
+using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,8 +14,7 @@ namespace _313ass2
         public Tool fan = new Tool(0);
         public Tool heater = new Tool(1);
 
-
-        public static DigitalO dOut = new DigitalO();
+        public static DigitalO dOut; 
 
         public Stopwatch stopwatch;
 
@@ -56,6 +55,7 @@ namespace _313ass2
             stopwatch = new Stopwatch();
             stopwatch.Start();
 
+                dOut = new DigitalO();
             dOut.OpenChannel(device + "/port0", "DigitalChn0");
             controllerEnabled = false;
             setPoint = 0;

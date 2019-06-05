@@ -1,4 +1,4 @@
-﻿using ReadWrite;
+using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -47,7 +47,7 @@ namespace _313ass2
             filter = new Filter(filterType, filterLength);
 
 
-            bufferLength = 100;
+            bufferLength = 1000;
 
             sensors = new SensorArray(bufferLength, device, filter);
 
@@ -72,6 +72,8 @@ namespace _313ass2
                 File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
             }
 
+            timer1.Enabled = true;
+            timer2.Enabled = true;
 
         }
 

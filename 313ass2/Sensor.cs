@@ -1,4 +1,4 @@
-﻿using ReadWrite;
+using ReadWrite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace _313ass2
             int success = analogInput.OpenChannel(device + "/ai" + ID, "Ainput");
             if (success == 0)
             {
-                MessageBox.Show("Error!");
+                MessageBox.Show("Device not found");
             }
         }
 

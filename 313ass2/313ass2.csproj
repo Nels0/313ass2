@@ -65,16 +65,17 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NationalInstruments.Common, Version=13.5.35.173, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
+    <Reference Include="NationalInstruments.Common, Version=8.7.35.131, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\nass\NationalInstruments.Common.dll</HintPath>
+      <HintPath>..\niass\NationalInstruments.Common.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.Common.Native, Version=12.0.20.258, Culture=neutral, PublicKeyToken=4544464cdeaab541, processorArchitecture=x86">
+    <Reference Include="NationalInstruments.Common.Native, Version=8.7.35.131, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\nass\NationalInstruments.Common.Native.dll</HintPath>
+      <HintPath>..\niass\NationalInstruments.Common.Native.dll</HintPath>
     </Reference>
-    <Reference Include="NationalInstruments.DAQmx">
-      <HintPath>..\..\nass\NationalInstruments.DAQmx.dll</HintPath>
+    <Reference Include="NationalInstruments.DAQmx, Version=8.9.35.210, Culture=neutral, PublicKeyToken=18cbae0f9955702a, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\niass\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
