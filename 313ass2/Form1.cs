@@ -1,24 +1,26 @@
-﻿using System;
+﻿using ReadWrite;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Windows.Forms;
-using ReadWrite;
+using System.Linq;
 using System.Threading;
+using System.Windows;
+using System.Windows.Forms;
+using System.Diagnostics;
+
 
 
 namespace _313ass2
 {
+
 
     public partial class Form1 : Form
     {
         Chamber chamber1;
         SensorArray sensors;
 
+        double medianTemp;
 
         int filterLength;
         FilterType filterType;
@@ -32,6 +34,72 @@ namespace _313ass2
         string device = "dev6";
 
         bool exited;
+
+
+        public Form1()
+        {
+
+            InitializeComponent();
+
+
+            filterLength = 10;
+            filterType = FilterType.Avg;
+            filter = new Filter(filterType, filterLength);
+
+
+            bufferLength = 100;
+
+            sensors = new SensorArray(bufferLength, device, filter);
+
+            chamber1 = new Chamber(device);
+
+            chamber1.ambientTemp = sensors.ambientTemp;
+
+            //Button update event handlers
+            chamber1.fan.ToolChanged += c_ToolChanged;
+            chamber1.heater.ToolChanged += c_ToolChanged;
+
+            //Start controller as own thread
+            //controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions?!
+            controllerThread = new Thread(chamber1.Controller);
+            controllerThread.Start();
+
+            readThread = new Thread(sensors.readSensors);
+            readThread.Start();
+
+            //Delete old logfiles
+            for (int i = 1; i <= 3; i++) {
+                File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
+            }
+
+
+        }
+
+
+        public static double[] Convolve(double[] sensorReadings, double[] filterValues, int ringIndex)
+        {
+            int filterLen = filterValues.Length;
+            int bufferLen = sensorReadings.Length;
+            double newValue = 0.0;
+            double[] filterReadings = new double[bufferLen];
+            Array.Reverse(filterValues, 0, filterLen); // flip filter array
+            double filterVal;
+
+            for (int i = 0; i < bufferLen; i++) //TODO: Double check this
+            {
+                if (i > (bufferLen - filterLen - 1))
+                {
+                     filterVal = filterValues[i - (bufferLen - filterLen)];
+                }
+                else
+                {
+                    filterVal = 0;
+                }
+                newValue += sensorReadings[(ringIndex + i) % bufferLen] * filterVal; // convolution
+                filterReadings[i] = newValue;
+            }
+            return filterReadings;
+        }
 
         void c_ToolChanged(object sender, ToolChangedEventArgs e) //ToolState button update handler
         {
@@ -65,74 +133,10 @@ namespace _313ass2
 
         }
 
-        public Form1()
-        {
-
-            InitializeComponent();
-
-            filterLength = 10;
-            filterType = FilterType.Avg;
-            filter = new Filter(filterType, filterLength);
-
-
-            bufferLength = 100;
-
-
-            sensors = new SensorArray(bufferLength, device, filter);
-
-            chamber1 = new Chamber(device);
-
-            chamber1.ambientTemp = sensors.ambientTemp;
-
-            //Button update event handlers
-            chamber1.fan.ToolChanged += c_ToolChanged;
-            chamber1.heater.ToolChanged += c_ToolChanged;
-
-            //Start controller as own thread
-            //controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions?!
-            controllerThread = new Thread(chamber1.Controller);
-            controllerThread.Start();
-
-            readThread = new Thread(sensors.readSensors);
-            readThread.Start();
-
-            //Delete old logfiles
-            for (int i = 1; i <= 3; i++) {
-                File.Delete(Application.StartupPath + "\\logfiles\\log" + i + ".txt");
-            }
-
-
-        }
-
-        public static double[] Convolve(double[] sensorReadings, double[] filterValues, int ringIndex)
-        {
-            int filterLen = filterValues.Length;
-            int bufferLen = sensorReadings.Length;
-            double newValue = 0.0;
-            double[] filterReadings = new double[bufferLen];
-            Array.Reverse(filterValues, 0, filterLen); // flip filter array
-            double filterVal;
-
-            for (int i = 0; i < bufferLen; i++) //TODO: Double check this
-            {
-                if (i > (bufferLen - filterLen - 1))
-                {
-                     filterVal = filterValues[i - (bufferLen - filterLen)];
-                }
-                else
-                {
-                    filterVal = 0;
-                }
-                newValue += sensorReadings[(ringIndex + i) % bufferLen] * filterVal; // convolution
-                filterReadings[i] = newValue;
-            }
-            return filterReadings;
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             filterTypeCombo.SelectedIndex = 0;
-            bool exited = false;
+            exited = false;
         }
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -140,6 +144,7 @@ namespace _313ass2
 
         }
 
+        
         private void ControllerRunButton_Click(object sender, EventArgs e)
         {
             chamber1.controllerEnabled = !chamber1.controllerEnabled;
@@ -231,7 +236,16 @@ namespace _313ass2
                     filterValues = new double[Parameters.Length];
                     for (int i = 0; i < Parameters.Length - 1; i++)
                     {
-                        filterValues[i] = Convert.ToDouble(Parameters[i]);
+                        try
+                        {
+                            filterValues[i] = Convert.ToDouble(Parameters[i]);
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Could not read file");
+                            return null;
+                        }
+
                     }
 
                     return filterValues;
@@ -248,7 +262,6 @@ namespace _313ass2
         private void saveFilterConfigToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Displays a SaveFileDialog so the user can save the Image  
-            // assigned to Button2.  
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
             saveFileDialog1.Filter = "Filter File|*.txt";
             saveFileDialog1.Title = "Save a Filter File";
@@ -271,7 +284,8 @@ namespace _313ass2
         //Timers
         private void timer1_Tick(object sender, EventArgs e)
         {
-            List<double> inputValues = new List<double>();
+
+            //Update all displays
 
             temperature1.Text = sensors.temp1.ToString("N2");
             temperature2.Text = sensors.temp2.ToString("N2");
@@ -280,7 +294,17 @@ namespace _313ass2
             ambientTempDisplay.Text = sensors.ambientTemp.ToString("N2");
 
             setTempLabel.Text = (sensors.ambientTemp + chamber1.setPoint).ToString("N2");
+            
+            controllerInputTemp.Text = medianTemp.ToString("N2");
+            
+        }
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            
 
+            // Add selected sensor values to a list
+            List<double> inputValues = new List<double>();
+            
             if (temp1CheckBox.Checked)
             {
                 inputValues.Add(sensors.temp1);
@@ -294,39 +318,49 @@ namespace _313ass2
                 inputValues.Add(sensors.temp3);
             }
 
-
-            double median;
-
             if (inputValues.Count > 0)
             {
                 //calculate median of the selected values
                 inputValues.Sort();
-                if(inputValues.Count % 2 == 0)
+                if (inputValues.Count % 2 == 0)
                 {
-                    median = (inputValues[(inputValues.Count / 2) - 1] + inputValues[(inputValues.Count / 2)])/ 2;
-                } else
+                    medianTemp = (inputValues[(inputValues.Count / 2) - 1] + inputValues[(inputValues.Count / 2)]) / 2;
+                }
+                else
                 {
-                    median = inputValues[(inputValues.Count / 2)];
+                    medianTemp = inputValues[(inputValues.Count / 2)];
                 }
 
 
-            } else
-            {
-                median = 0;
             }
-            controllerInputTemp.Text = median.ToString("N2");
-            chamber1.controlTemp = median;
+            else
+            {
+                medianTemp = 0;
+            }
+
+            //Set the control temp for the controller
+            chamber1.controlTemp = medianTemp;
+            sensors.timestamp = chamber1.stopwatch.ElapsedMilliseconds;
+
+            //While filter is stabilising, allow ambient temp to change
+            if (sensors.timestamp < 600 * filter.Length)
+            {
+                chamber1.ambientTemp = medianTemp;
+                sensors.ambientTemp = medianTemp;
+            }
 
 
+            // If we've exited the program, run the chamber to cool temp
             if (exited)
             {
                 this.Hide();
 
                 chamber1.setPoint = 0;
                 chamber1.controllerEnabled = true;
-
-                if (Math.Abs(chamber1.error) < 0.5)
+                //If we've reached exit conditions of being cool enough
+                if (chamber1.controlTemp - chamber1.ambientTemp < 0) 
                 {
+                    //stop system and nuke processes
                     chamber1.fan.on = false;
                     chamber1.heater.on = false;
                     readThread.Abort();
@@ -335,18 +369,12 @@ namespace _313ass2
                 }
 
             }
-        }
-        private void timer2_Tick(object sender, EventArgs e)
-        {
-            //Transfer values
-            chamber1.controlTemp = sensors.temp1;
 
+            // set chamber control loop and sensor read loop to run
             chamber1.cycle = true;
             sensors.cycle = true;
 
-            var timeSinceStart = DateTime.UtcNow - System.Diagnostics.Process.GetCurrentProcess().StartTime.ToUniversalTime();
 
-            //if (timeS)
         }
         
         //Exit Button
@@ -470,6 +498,31 @@ namespace _313ass2
         {
 
         }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void setTempLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     class Tool
@@ -540,7 +593,7 @@ namespace _313ass2
 
         public static DigitalO dOut = new DigitalO();
 
-        
+        public Stopwatch stopwatch;
 
         public bool cycle = true;
 
@@ -560,8 +613,8 @@ namespace _313ass2
 
         double error_last = 0;
 
-        public double heaterThreshold = 0.2;
-        public double fanThreshold = 0.4;
+        public double heaterThreshold = 0.1;
+        public double fanThreshold = 0;
 
         private double _setPoint;
 
@@ -575,7 +628,10 @@ namespace _313ass2
 
         public Chamber(string device)
         {
-            //string device = "dev6";
+
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             dOut.OpenChannel(device+"/port0", "DigitalChn0");
             controllerEnabled = false;
             setPoint = 0;
@@ -777,6 +833,8 @@ namespace _313ass2
 
         Filter _filter;
 
+        public long timestamp;
+
         public double ambientTemp;
 
         public bool cycle;
@@ -801,8 +859,7 @@ namespace _313ass2
             sens1Buffer = new double[bufferLength];
             sens2Buffer = new double[bufferLength];
             sens3Buffer = new double[bufferLength];
-
-            ambientTemp = sensor2.getSensorTemp();
+            
 
         }
 
@@ -815,9 +872,6 @@ namespace _313ass2
                 if (cycle)
                 {
                     //string date = DateTime.Now.ToString("HH:mm:ss.fff");
-                    Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                    string date = unixTimestamp.ToString();
-
                     string logfolder = Application.StartupPath + "\\logfiles";
                     System.IO.Directory.CreateDirectory(logfolder);
 
@@ -848,19 +902,19 @@ namespace _313ass2
 
                     using (StreamWriter sw = new StreamWriter(logfolder + "/log1.txt", append: true))
                     {
-                        sw.WriteLine(date + " " + t_temp1.ToString() + " " + temp1.ToString());
+                        sw.WriteLine(timestamp.ToString() + " " + t_temp1.ToString() + " " + temp1.ToString());
                         sw.Close();
                     }
 
                     using (StreamWriter sw = new StreamWriter(logfolder + "/log2.txt", append: true))
                     {
-                        sw.WriteLine(date + " " + t_temp2.ToString() + " " + temp2.ToString());
+                        sw.WriteLine(timestamp.ToString() + " " + t_temp2.ToString() + " " + temp2.ToString());
                         sw.Close();
                     }
 
                     using (StreamWriter sw = new StreamWriter(logfolder + "/log3.txt", append: true))
                     {
-                        sw.WriteLine(date + " " + t_temp3.ToString() + " " + temp3.ToString());
+                        sw.WriteLine(timestamp.ToString() + " " + t_temp3.ToString() + " " + temp3.ToString());
                         sw.Close();
                     }
 
