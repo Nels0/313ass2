@@ -41,26 +41,22 @@ namespace _313ass2
 
             InitializeComponent();
 
-
+            //Set inital veriables
             filterLength = 10;
             filterType = FilterType.Avg;
-            filter = new Filter(filterType, filterLength);
-
-
             bufferLength = 1000;
 
+            filter = new Filter(filterType, filterLength);
             sensors = new SensorArray(bufferLength, device, filter);
-
             chamber1 = new Chamber(device);
 
-            chamber1.ambientTemp = sensors.ambientTemp;
 
-            //Button update event handlers
+
+            // Tool state update event handlers
             chamber1.fan.ToolChanged += c_ToolChanged;
             chamber1.heater.ToolChanged += c_ToolChanged;
 
-            //Start controller as own thread
-            //controllerThread = new Thread(()=>Chamber.Controller(chamber1)); //Using anonymous methods and lambda expressions?!
+            //Start controller and sensor array polling as own thread
             controllerThread = new Thread(chamber1.Controller);
             controllerThread.Start();
 
@@ -76,6 +72,7 @@ namespace _313ass2
                 catch { }
             }
 
+            //Start thread execution
             timer1.Enabled = true;
             timer2.Enabled = true;
 
@@ -301,9 +298,9 @@ namespace _313ass2
             temperature2.Text = sensors.temp2.ToString("N2");
             temperature3.Text = sensors.temp3.ToString("N2");
 
-            ambientTempDisplay.Text = sensors.ambientTemp.ToString("N2");
+            ambientTempDisplay.Text = chamber1.ambientTemp.ToString("N2");
 
-            setTempLabel.Text = (sensors.ambientTemp + chamber1.setPoint).ToString("N2");
+            setTempLabel.Text = (chamber1.ambientTemp + chamber1.setPoint).ToString("N2");
             
             controllerInputTemp.Text = medianTemp.ToString("N2");
             
@@ -356,7 +353,6 @@ namespace _313ass2
             if (sensors.timestamp < 600 * filter.Length)
             {
                 chamber1.ambientTemp = medianTemp;
-                sensors.ambientTemp = medianTemp;
             }
 
 
@@ -373,8 +369,8 @@ namespace _313ass2
                     //stop system and nuke processes
                     chamber1.fan.on = false;
                     chamber1.heater.on = false;
-                    readThread.Abort();
-                    controllerThread.Abort();
+                    sensors.current = false;
+                    chamber1.current = false;
                     Application.Exit();
                 }
 
@@ -466,7 +462,6 @@ namespace _313ass2
         private void button1_Click(object sender, EventArgs e)
         {
             chamber1.ambientTemp = chamber1.controlTemp;
-            sensors.ambientTemp = chamber1.controlTemp;
         }
 
         // Unused

@@ -16,10 +16,9 @@ namespace _313ass2
         Filter _filter;
 
         public long timestamp;
-
-        public double ambientTemp;
-
+        
         public bool cycle;
+
         public bool current = true; // Boolean to end thread
 
         public int ringIndex;
@@ -108,9 +107,13 @@ namespace _313ass2
                 }
 
             }
-            sensor1.analogInput.CloseChannel();
-            sensor2.analogInput.CloseChannel();
-            sensor3.analogInput.CloseChannel();
+            try
+            {
+                sensor1.analogInput.CloseChannel();
+                sensor2.analogInput.CloseChannel();
+                sensor3.analogInput.CloseChannel();
+            }
+            catch { }
 
         }
     }

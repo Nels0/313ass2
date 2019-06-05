@@ -18,6 +18,7 @@ namespace _313ass2
 
         public Stopwatch stopwatch;
 
+        public bool current = true;
         public bool cycle = true;
 
         public double controlTemp;
@@ -73,7 +74,7 @@ namespace _313ass2
             //Controller calculations
 
 
-            while (true)
+            while (current)
             {
                 if (cycle)
                 {
